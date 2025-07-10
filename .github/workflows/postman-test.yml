@@ -1,0 +1,40 @@
+name: Run Postman with Dynamic Value
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: npm install express csv-parser
+
+    - name: Start Echo Server
+      run: node api.js &
+    
+    - name: Wait for server
+      run: sleep 2
+
+    - name: Get next value
+      id: get_value
+      run: node getNextValue.js
+
+    - name: Install Newman
+      run: npm install -g newman
+
+    - name: Run Postman Collection
+      run: |
+        newman run Echo_test_collection.postman_collection.json \
+          --env-var "NEXT_VALUE=${{ steps.get_value.outputs.next_value }}"
