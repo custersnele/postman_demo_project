@@ -24,7 +24,8 @@
 							"pm.test(\"Echoed response has contains value\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData).to.have.property(\"echoed\");",
-							"    var echoedValue = pm.collectionVariables.get(\"echoedValue\");",
+							"    var echoedValue = pm.collectionVariables.echoedValue;",
+							"    console.log(\"Echoed value expected: \" . echoedValue)",
 							"    pm.expect(jsonData.echoed).to.eql(echoedValue);",
 							"});"
 						],
@@ -109,7 +110,7 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
-					""
+					"pm.collectionVariables.set(\"echoedValue\", pm.environment.get(\"NEXT_VALUE\"));"
 				]
 			}
 		},
