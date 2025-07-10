@@ -37,4 +37,4 @@ jobs:
     - name: Run Postman Collection
       run: |
         newman run Echo_test_collection.postman_collection.json \
-          --env-var "echoedValue=${{ steps.get_value.outputs.next_value }}"
+          --env-var "NEXT_VALUE=${{ steps.get_value.outputs.next_value }}"
