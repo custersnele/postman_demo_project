@@ -22,8 +22,7 @@ jobs:
       run: npm install express csv-parser
 
     - name: Start Echo Server
-      run: node server.js &
-      working-directory: ./
+      run: node api.js &
     
     - name: Wait for server
       run: sleep 2
@@ -37,5 +36,5 @@ jobs:
 
     - name: Run Postman Collection
       run: |
-        newman run echo.postman_collection.json \
+        newman run Echo_test_collection.postman_collection.json \
           --env-var "echoedValue=${{ steps.get_value.outputs.next_value }}"
