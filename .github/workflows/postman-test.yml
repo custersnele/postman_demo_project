@@ -23,6 +23,7 @@ jobs:
 
     - name: Start Echo Server
       run: node server.js &
+      working-directory: ./
     
     - name: Wait for server
       run: sleep 2
