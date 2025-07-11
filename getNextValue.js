@@ -12,7 +12,7 @@ fs.createReadStream('possible_values.csv')
         console.log(values);
         const nextValue = values[index];
 
-        console.log(`echo "next_value=${nextValue}" >> $GITHUB_OUTPUT`);
+        console.log(`echo "next_value=${nextValue}" >> "$GITHUB_OUTPUT"`);
 
         // Increment counter for next run
         const newIndex = (index + 1) % values.length;
