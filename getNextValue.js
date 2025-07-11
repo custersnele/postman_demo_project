@@ -1,6 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parser');
-import * as core from '@actions/core';
+const core = require('@actions/core');
 
 const values = [];
 fs.createReadStream('possible_values.csv')
