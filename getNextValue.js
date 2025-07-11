@@ -1,5 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parser');
+import * as core from '@actions/core';
 
 const values = [];
 fs.createReadStream('possible_values.csv')
@@ -12,7 +13,7 @@ fs.createReadStream('possible_values.csv')
         console.log(values);
         const nextValue = values[index];
 
-        console.log(`echo "next_value=${nextValue}" >> $GITHUB_OUTPUT`);
+        core.setOutput('next_value', nextValue);
 
         // Increment counter for next run
         const newIndex = (index + 1) % values.length;
