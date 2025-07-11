@@ -31,6 +31,15 @@ jobs:
       id: get_value
       run: node getNextValue.js
 
+    - name: Commit and push next value
+      run: |
+        git config --global user.name "QA"
+        git config --global user.email "qa@test.dibemas.be"
+  
+        git add -A
+        git commit -m "next index"
+        git push
+
     - name: Install Newman
       run: npm install -g newman
 
