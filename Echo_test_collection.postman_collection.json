@@ -24,8 +24,9 @@
 							"pm.test(\"Echoed response has contains value\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData).to.have.property(\"echoed\");",
-							"    var echoedValue = pm.collectionVariables.echoedValue;",
-							"    console.log(\"Echoed value expected: \" . echoedValue)",
+							"    console.log(pm.collectionVariables.get('echoedValue'));",
+							"    var echoedValue = pm.collectionVariables.get('echoedValue');",
+							"    console.log(\"Echoed value expected: \" + echoedValue)",
 							"    pm.expect(jsonData.echoed).to.eql(echoedValue);",
 							"});"
 						],
@@ -110,7 +111,12 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
-					"pm.collectionVariables.set(\"echoedValue\", pm.environment.get(\"NEXT_VALUE\"));"
+					"if (!pm.collectionVariables.get(\"initialized\")) {",
+					"    console.log(\"in pre-request\");",
+					"    pm.collectionVariables.set(\"echoedValue\", pm.environment.get(\"NEXT_VALUE\"));",
+					"    console.log(pm.collectionVariables.get('echoedValue'));",
+					"    pm.collectionVariables.set(\"initialized\", true);",
+					"}"
 				]
 			}
 		},
@@ -120,7 +126,7 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
-					""
+					"console.log(\"in post-response\");"
 				]
 			}
 		}
