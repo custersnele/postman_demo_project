@@ -1,0 +1,29 @@
+name: "API Test - API Collection"
+on:
+  schedule:
+    - cron: "0 2 * * 1-5"
+  workflow_dispatch:
+
+permissions: write-all
+jobs:
+  retrieve-token:
+    runs-on: ubuntu-latest
+    env:
+      MY_VAR: ${{ vars.MY_VAR }
+
+    steps:
+       - name: Checkout code
+         uses: actions/checkout@v3
+
+       - name: Set up Python
+         uses: actions/setup-python@v5
+         with:
+            python-version: '3.12'
+
+       - name: Install dependencies
+         run: pip install requests
+
+       - name: Run token retriever
+         id: test-script
+         run: python Scripts/my-script.py
+         shell: bash
