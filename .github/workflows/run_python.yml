@@ -9,7 +9,7 @@ jobs:
   retrieve-token:
     runs-on: ubuntu-latest
     env:
-      MY_VAR: ${{ vars.MY_VAR }
+      MY_VAR: ${{ vars.MY_VAR }}
 
     steps:
        - name: Checkout code
