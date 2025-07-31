@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
  
-const privateKey = process.env.JSB_PRIVATE_KEY;
+const privateKey = process.env.PRIVATE_KEY;
  
 const base64Payload = process.argv[2];
 const jsonString = Buffer.from(base64Payload, 'base64').toString('utf8');
