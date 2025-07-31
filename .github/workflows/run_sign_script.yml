@@ -1,1 +1,45 @@
+name: "API Test - API Collection"
+on:
+  workflow_dispatch:
 
+permissions: write-all
+jobs:
+  call-sign:
+    runs-on: ubuntu-latest
+    env:
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
+    steps:
+        - uses: actions/setup-node@v3
+          with:
+            node-version: "16"
+        - name: Checkout code
+          uses: actions/checkout@v3
+        
+        - name: Install jsonwebtoken
+          run: npm install jsonwebtoken
+
+        - name: calling sign token
+          id: sign-token
+          shell: pwsh
+          run: |
+              $now = [int]((Get-Date).ToUniversalTime() - [datetime]'1970-01-01').TotalSeconds
+              $payload = @{
+                  aud = "abc"
+                  iss = "issuer"
+                  sub = "subject"
+                  iat = $now
+                  exp = $now + 3600
+                  jti = [guid]::NewGuid().ToString()
+              }
+
+              function ConvertTo-Base64Url {
+                  param ($text)
+                  $b64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($text))
+                  return $b64.Replace('+','-').Replace('/','_').TrimEnd('=')
+              }
+
+              $payloadB64 = ConvertTo-Base64Url (ConvertTo-Json $payload -Compress)
+              $encodedJwt = node ./api-tests/scripts/sign.js $payloadB64
+
+              echo "ENCODED=$($encodedJwt)" >> $env:GITHUB_ENV
