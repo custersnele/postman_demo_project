@@ -42,6 +42,6 @@ jobs:
               }
 
               $payloadB64 = ConvertTo-Base64Url (ConvertTo-Json $payload -Compress)
-              $encodedJwt = node ./api-tests/scripts/sign.js $payloadB64
+              $encodedJwt = node .github/workflows/api-tests/scripts/sign.js $payloadB64
 
               echo "ENCODED=$($encodedJwt)" >> $env:GITHUB_ENV
